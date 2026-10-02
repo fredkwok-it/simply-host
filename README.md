@@ -5,7 +5,7 @@ No build step, no dependencies, no external requests. Open a file and it plays.
 
 ## Live
 
-Hosted with GitHub Pages: https://USERNAME.github.io/simply-host/
+Hosted with GitHub Pages: https://fredkwok-it.github.io/simply-host/
 
 - [`index.html`](index.html) — the landing page / index
 - [`jev-explained.html`](jev-explained.html) — *Jev, in motion*: how we use Jev, a System One model, inside an app. Ten chapters, one 3.4 MB file, runs offline.
