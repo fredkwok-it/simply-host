@@ -145,7 +145,7 @@ h1,h2,p{margin:0;}
   white-space:nowrap;
 }
 .cta .arrow{display:inline-block;transition:transform .3s cubic-bezier(.2,.7,.2,1);}
-.plate--feature::after{
+.plate--link::after{
   content:"";
   position:absolute;
   left:0;right:0;bottom:-1px;
@@ -155,10 +155,10 @@ h1,h2,p{margin:0;}
   transform-origin:left;
   transition:transform .45s cubic-bezier(.2,.7,.2,1);
 }
-.plate--feature:hover{background:var(--ground-hi);}
-.plate--feature:hover::after,
-.plate--feature:focus-visible::after{transform:scaleX(1);}
-.plate--feature:hover .arrow{transform:translateX(4px);}
+.plate--link:hover{background:var(--ground-hi);}
+.plate--link:hover::after,
+.plate--link:focus-visible::after{transform:scaleX(1);}
+.plate--link:hover .arrow{transform:translateX(4px);}
 
 .plate--reserved{
   background:transparent;
@@ -167,6 +167,18 @@ h1,h2,p{margin:0;}
 }
 .plate--reserved .fig{color:rgba(141,180,242,.75);}
 .plate--reserved h2{color:var(--ink-2);}
+
+/* slim format strip */
+.plate--strip{
+  display:flex;
+  align-items:baseline;
+  gap:24px;
+  padding:18px 30px;
+  background:transparent;
+  border-color:rgba(141,180,242,.2);
+}
+.plate--strip .fig{flex:none;}
+.plate--strip p{margin-top:0;font-size:15px;}
 
 /* footer */
 .foot{
@@ -196,7 +208,7 @@ h1,h2,p{margin:0;}
 }
 @media (prefers-reduced-motion:reduce){
   .fx{animation:none;opacity:1;transform:none;}
-  .plate--feature::after,
+  .plate--link::after,
   .cta .arrow{transition:none;}
 }
 
@@ -205,6 +217,7 @@ h1,h2,p{margin:0;}
   .intro{margin-top:52px;}
   .plate--feature{padding:26px 24px;}
   .plate{padding:22px 22px;}
+  .plate--strip{flex-direction:column;gap:6px;}
   .plate-head{flex-direction:column;gap:6px;}
 }
 </style>
@@ -227,7 +240,7 @@ h1,h2,p{margin:0;}
   </section>
 
   <main class="plates">
-    <a class="plate plate--feature fx" style="--d:.26s" href="jev-explained.html">
+    <a class="plate plate--link plate--feature fx" style="--d:.26s" href="jev-explained.html">
       <div class="plate-head">
         <span class="fig">Fig. 1 · motion essay</span>
         <span class="fig-meta">one file · runs offline</span>
@@ -241,17 +254,30 @@ h1,h2,p{margin:0;}
     </a>
 
     <div class="pair">
-      <section class="plate plate--reserved fx" style="--d:.32s">
-        <div class="plate-head"><span class="fig">Fig. 2 · reserved</span></div>
-        <h2>Reserved for the next one</h2>
-        <p>The next explainer takes the same shape — one file into the repo, one card on this page. Nothing else to it.</p>
-      </section>
+      <a class="plate plate--link fx" style="--d:.32s" href="IBM_Motion_Reel.html">
+        <div class="plate-head">
+          <span class="fig">Fig. 2 · motion reel</span>
+          <span class="fig-meta">no video file · drawn live</span>
+        </div>
+        <h2>IBM // Motion Reel 2026</h2>
+        <p>Every frame is code: Canvas 2D with WebGL post, drawn live at 1920×1080. A non-commercial homage, plays with sound.</p>
+        <div class="plate-foot">
+          <span class="meta">real-time · 15 s · 0.6 MB</span>
+          <span class="cta">Open the reel <span class="arrow">→</span></span>
+        </div>
+      </a>
 
-      <section class="plate fx" style="--d:.38s">
-        <div class="plate-head"><span class="fig">The format</span></div>
-        <p>HTML and JavaScript in a single <code>.html</code>. No build, no dependencies, no requests — every page here runs offline, from a plane or a USB stick.</p>
+      <section class="plate plate--reserved fx" style="--d:.36s">
+        <div class="plate-head"><span class="fig">Fig. 3 · reserved</span></div>
+        <h2>Reserved for the next one</h2>
+        <p>The next piece takes the same shape — one file into the repo, one card on this page. Nothing else to it.</p>
       </section>
     </div>
+
+    <section class="plate plate--strip fx" style="--d:.4s">
+      <span class="fig">The format</span>
+      <p>HTML and JavaScript in a single <code>.html</code>. No build, no dependencies, no requests — every page here runs offline, from a plane or a USB stick.</p>
+    </section>
   </main>
 
   <footer class="foot fx" style="--d:.44s">
