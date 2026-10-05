@@ -35,6 +35,7 @@ body.playing #play .p { display: none; } body:not(.playing) #play .s { display: 
 #chapter { color: var(--hi); min-width: 9.5em; }
 #tc { font-variant-numeric: tabular-nums; min-width: 9em; text-align: right; }
 :focus-visible { outline: 2px solid var(--mod); outline-offset: 3px; }
+#fallback[hidden] { display: none; }
 #fallback { position: absolute; inset: 0; display: grid; place-items: center; color: #1A1E3D; text-align: center; padding: 2em; }
 body.capture { background: #000; }
 body.capture #player { width: 1920px; } body.capture .bar, body.capture #poster { display: none !important; }
