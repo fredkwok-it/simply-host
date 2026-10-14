@@ -12,6 +12,8 @@ Hosted with GitHub Pages: https://fredkwok-it.github.io/simply-host/
 - [`IBM_Motion_Reel.html`](IBM_Motion_Reel.html) — *IBM // Motion Reel 2026*: a real-time motion homage — every frame drawn live in Canvas 2D + WebGL, no video file, plays with sound.
 - [`claude-mods-explained.html`](claude-mods-explained.html) — *Claude Code mods, in cells*: an animated film drawn from terminal character cells — what mods are and how they compare with skills, MCP servers, settings hooks, and plugins. Needs WebGL2, plays with sound.
 - [`caching-explained.html`](caching-explained.html) — *Keep the tower standing*: how AI chatbots use caching — every message rebuilds the conversation as a tower of blocks, and caching keeps it standing. Six chapters, one 6.8 MB file, runs offline.
+- [`from-claude-md-to-dreaming.html`](from-claude-md-to-dreaming.html) — *From CLAUDE.md to Dreaming*: a film about AI memory — how a single instruction file grows into something that remembers and dreams. 4:23, one file, plays with sound.
+- [`how-an-ai-learns-to-remember.html`](how-an-ai-learns-to-remember.html) — *How an AI learns to remember*: the explainer cut of the same story — how an AI builds memory from its instructions, files, and history, step by step. 6:16, one file, plays with sound.
 
 ## Adding an explainer
 
