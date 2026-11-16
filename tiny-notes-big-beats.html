@@ -627,6 +627,11 @@ const LV=[
 ];
 LV.forEach(l=>l.qs=l.qs.map(b=>({bars:b,notes:seq(b.flat(),4)})));
 const G={scr:'menu',since:0,wt:-9,lv:0,q:0,best:LV.map(l=>l.qs.map(()=>0)),heard:{},failed:{},unlockAll:false,run:null,res:null,pops:[],rbus:null,fx:null,endAt:0};
+G.spd=1;                                            /* practice-speed multiplier, shared by all levels */
+const SPD_MIN=.5,SPD_MAX=1.6;
+const curBpm=L=>Math.round(L.bpm*G.spd);
+function setSpd(bpm){const L=LV[G.lv];G.spd=clamp(bpm/L.bpm,SPD_MIN,SPD_MAX);sfx('pop',{f:500+G.spd*400,g:.08});}
+const stepBpm=d=>setSpd(clamp(curBpm(LV[G.lv])+d,Math.round(LV[G.lv].bpm*SPD_MIN),Math.round(LV[G.lv].bpm*SPD_MAX)));
 const unlocked=i=>G.unlockAll||i===0||G.best[i-1].every(s=>s>0);
 const PITCH={w:392,h:440,q:523.25,e:659.25,s:783.99};
 const lat=()=>A?clamp((A.outputLatency||0)+(A.baseLatency||0),0,.25):0;
@@ -635,7 +640,7 @@ function sfx(k,o={},dt=0){if(!A||!G.fx)return;const b=bus;bus=G.fx;try{synth({k,
 function go(scr){G.scr=scr;G.since=gt();G.wt=gt();G.pops=[];sfx('whoosh');}
 function stopRun(){if(G.rbus&&A){const b=G.rbus;b.gain.setTargetAtTime(0,A.currentTime,.02);setTimeout(()=>b.disconnect(),300);}G.rbus=null;}
 function startRun(listen){
-  const L=LV[G.lv],Q=L.qs[G.q],bs=60/L.bpm;stopRun();
+  const L=LV[G.lv],Q=L.qs[G.q],bs=60/curBpm(L);stopRun();
   const rb=A.createGain();rb.connect(comp);G.rbus=rb;const t0=A.currentTime+.4,ev=[];
   for(let i=0;i<12;i++)ev.push({t:i*bs,k:'tick',acc:i%4===0,soft:i>=4});
   [[[261.63,329.63,392],65.41],[[220,261.63,349.23],87.31]].forEach(([ch,bf],i)=>{const t=(i+1)*4*bs;
@@ -724,7 +729,12 @@ function scrReady(lt){
   const L=LV[G.lv],Q=L.qs[G.q],key=G.lv+'-'+G.q,canListen=G.failed[key]||G.heard[key];bg(L.c,T);
   sticker('Level '+(G.lv+1)+' · '+L.name,110,100,76,L.col,lt,.05,{align:'left',stagger:.02});
   txt('Question '+(G.q+1)+' of 3 — read the rhythm, then clap it!',115,186,38,C.ink,{align:'left',weight:900,alpha:eo(prog(lt,.3,.4))});
-  qDots(1640,100);badge(1716,186,'speed: '+L.bpm+' bpm','#fff',back(prog(lt,.4,.4)),28);
+  qDots(1640,100);
+  {const sp=back(prog(lt,.4,.4)),bp=curBpm(L),slow=G.spd<.99,fast=G.spd>1.01;
+   gbtn('−',1500,196,84,84,'#fff',()=>stepBpm(-4),{p:sp,size:56});
+   gbtn(bp+' bpm',1672,196,236,84,slow?C.mint:fast?C.peach:'#fff',()=>{G.spd=1;sfx('pop',{f:700,g:.08});},{p:sp,size:36});
+   gbtn('+',1844,196,84,84,'#fff',()=>stepBpm(4),{p:sp,size:56});
+   txt(slow?'slower — great for learning':fast?'faster — challenge!':'speed (tap the number to reset)',1672,262,26,C.sub,{weight:800,alpha:sp});}
   Q.bars.forEach((bar,i)=>{const k=eo(prog(lt,.35+i*.15,.5));ctx.save();ctx.globalAlpha=k;ctx.translate((1-k)*120,0);
     beatBar(420+i*235,seq(bar,0),-1);badge(130,420+i*235,'bar '+(i+1),L.col,1,30);ctx.restore();});
   txt('Tap on every note when it reaches the circle · stay quiet on rests · long notes = tap once',W/2,800,32,C.ink,{weight:800,alpha:eo(prog(lt,.7,.5))});
@@ -835,6 +845,7 @@ cv.addEventListener('pointerdown',e=>{swallow=false;cvPos(e);const b=BTN.find(hi
 function gameKey(e){
   if(e.repeat)return;const k=e.code;
   if(k==='Escape'){e.preventDefault();if(G.scr==='play'){stopRun();go('ready');}else if(G.scr!=='menu')go('menu');else exitGame();return;}
+  if(G.scr==='ready'&&(k==='ArrowLeft'||k==='ArrowRight'||k==='Minus'||k==='Equal')){e.preventDefault();stepBpm(k==='ArrowLeft'||k==='Minus'?-4:4);return;}
   if(G.scr==='play'){if(['Space','Enter','KeyJ','KeyF','KeyK','KeyD','ArrowDown','ArrowUp'].includes(k)){e.preventDefault();tap(evLag(e));}return;}
   if(k==='Space'||k==='Enter'){e.preventDefault();const p=BTN.find(b=>b.primary);if(p)p.fn();}
 }
