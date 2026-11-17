@@ -3,28 +3,40 @@
 <head>
 <meta charset="utf-8">
 <title>Tiny Notes, Big Beats — a kawaii rhythm showreel</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>
-:root{color-scheme:light}
+:root{color-scheme:light;--res:76px}
+@media (max-width:760px),(max-height:520px){:root{--res:122px}}
 html,body{margin:0;height:100%;background:#2e2140;font-family:ui-rounded,"Hiragino Maru Gothic ProN","Arial Rounded MT Bold",system-ui,sans-serif;color:#fff;overflow:hidden}
-#wrap{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-canvas{width:min(98vw,calc((100vh - 76px)*16/9));aspect-ratio:16/9;border-radius:20px;box-shadow:0 24px 70px #0009;background:#ffd6e8;cursor:pointer;display:block}
-#bar{display:flex;gap:12px;align-items:center;width:min(98vw,calc((100vh - 76px)*16/9))}
-button{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:999px;padding:9px 18px;background:#ff8fbf;color:#3b2850;cursor:pointer;box-shadow:0 3px 0 #c7528a}
+#wrap{position:fixed;inset:0;height:100vh;height:100dvh;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+canvas{width:min(98vw,calc((100dvh - var(--res))*16/9));aspect-ratio:16/9;border-radius:20px;box-shadow:0 24px 70px #0009;background:#ffd6e8;cursor:pointer;display:block}
+#bar{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;align-items:center;width:min(98vw,calc((100dvh - var(--res))*16/9))}
+button{white-space:nowrap;-webkit-tap-highlight-color:transparent;font:inherit;font-weight:800;font-size:15px;border:0;border-radius:999px;padding:9px 18px;background:#ff8fbf;color:#3b2850;cursor:pointer;box-shadow:0 3px 0 #c7528a}
 button:active{transform:translateY(2px);box-shadow:none}
 #rec{background:#ffe27a;box-shadow:0 3px 0 #c9a63a}
-input[type=range]{flex:1;accent-color:#ff8fbf}
-#time{font-variant-numeric:tabular-nums;min-width:104px;font-weight:700;opacity:.9}
+input[type=range]{flex:1 1 180px;min-width:120px;accent-color:#ff8fbf}
+#time{font-variant-numeric:tabular-nums;min-width:96px;white-space:nowrap;font-weight:700;opacity:.9}
 body.rec #bar{opacity:.45;pointer-events:none}
 #game{background:#7fe0c0;box-shadow:0 3px 0 #3fa484}
 body.game #play,body.game #seek,body.game #time,body.game #rec{display:none}
 body.game #bar{justify-content:center}
 body.game canvas{touch-action:none}
+#rot{display:none;font-weight:800;font-size:14px;opacity:.85;text-align:center}
+/* phones: smaller buttons, seek bar on its own full-width row, no video-export button (phones can't record reliably) */
+@media (max-width:760px){
+  button{font-size:14px;padding:8px 14px}
+  #play{order:1}#time{order:2;min-width:0;font-size:14px}#game{order:3}
+  #seek{order:4;flex:1 1 100%}
+  #rec{display:none}
+}
+@media (max-width:760px) and (orientation:portrait){#rot{display:block}}
+@media (hover:none) and (pointer:coarse){#rec{display:none}}
 </style>
 </head>
 <body>
 <div id="wrap">
   <canvas id="c" width="1920" height="1080"></canvas>
+  <div id="rot">↻ Turn your phone sideways for a bigger picture</div>
   <div id="bar">
     <button id="play">▶ Play</button>
     <input id="seek" type="range" min="0" max="1000" value="0">
